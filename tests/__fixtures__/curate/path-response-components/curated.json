@@ -1,0 +1,25 @@
+{
+    "openapi": "3.0.0",
+    "info": {
+        "title": "Paths using response components in JSON format",
+        "version": "1.0.0"
+    },
+    "paths": {
+        "/comments": {
+            "get": {
+                "responses": {
+                    "200": {
+                        "$ref": "#/components/responses/200"
+                    }
+                }
+            }
+        }
+    },
+    "components": {
+        "responses": {
+            "200": {
+                "description": "OK"
+            }
+        }
+    }
+}

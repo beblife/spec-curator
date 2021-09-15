@@ -1,0 +1,40 @@
+{
+    "openapi": "3.0.0",
+    "info": {
+        "title": "Servers in JSON format",
+        "version": "1.0.0"
+    },
+    "servers": [
+        {
+            "url": "https://production.packages.com/api",
+            "description": "Production"
+        },
+        {
+            "url": "https://staging.packages.com/api",
+            "description": "Staging"
+        }
+    ],
+    "paths": {
+        "/packages": {
+            "servers": [
+                {
+                    "url": "https://staging.packages.com/api",
+                    "description": "Staging"
+                },
+                {
+                    "url": "https://production.packages.com/api",
+                    "description": "Production"
+                }
+            ]
+        },
+        "/comments": {
+            "servers": [
+                {
+                    "url": "https://staging.packages.com/api",
+                    "description": "Staging"
+                }
+            ]
+        },
+        "/tags": {}
+    }
+}

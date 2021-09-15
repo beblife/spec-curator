@@ -1,0 +1,49 @@
+{
+    "openapi": "3.0.0",
+    "info": {
+        "title": "Paths using schema components in JSON format",
+        "version": "1.0.0"
+    },
+    "paths": {
+        "/packages": {
+            "get": {
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "type": {
+                                            "type": "string"
+                                        }
+                                    },
+                                    "discriminator": {
+                                        "propertyName": "type",
+                                        "mapping": {
+                                            "library": "#/components/schemas/Library",
+                                            "project-play": "#/components/schemas/Project"
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    },
+    "components": {
+        "schemas": {
+            "Library": {
+                "type": "object",
+                "additionalProperties": true
+            },
+            "Project": {
+                "type": "object",
+                "additionalProperties": true
+            }
+        }
+    }
+}

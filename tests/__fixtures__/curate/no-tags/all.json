@@ -1,0 +1,27 @@
+{
+    "openapi": "3.0.0",
+    "info": {
+        "title": "No tags in JSON format",
+        "version": "1.0.0"
+    },
+    "paths": {
+        "/packages": {
+            "get": {
+                "tags": [
+                    "Tag"
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK"
+                    }
+                }
+            }
+        }
+    },
+    "tags": [
+        {
+            "name": "Tag",
+            "description": "You are it!"
+        }
+    ]
+}

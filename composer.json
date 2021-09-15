@@ -1,0 +1,33 @@
+{
+    "name": "beblife/spec-curator",
+    "description": "Build multiple curated versions of an OpenAPI specification document.",
+    "type": "library",
+    "require": {
+        "php": "^7.4|^8.0",
+        "cebe/php-openapi": "^1.5"
+    },
+    "require-dev": {
+        "pestphp/pest": "^1.18",
+        "symfony/var-dumper": "^5.3",
+        "madewithlove/php-cs-fixer-config": "^3.0"
+    },
+    "autoload": {
+        "psr-4": {
+            "Beblife\\SpecCurator\\": "src"
+        }
+    },
+    "autoload-dev": {
+        "classmap": [
+            "tests"
+        ]
+    },
+    "scripts": {
+        "test": [
+            "pest"
+        ],
+        "format": [
+            "php-cs-fixer fix -vvv"
+        ]
+    },
+    "license": "MIT"
+}

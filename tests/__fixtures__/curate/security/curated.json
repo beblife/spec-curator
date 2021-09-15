@@ -1,0 +1,66 @@
+{
+    "openapi": "3.0.0",
+    "info": {
+        "title": "Security in JSON format",
+        "version": "1.0.0"
+    },
+    "paths": {
+        "/packages": {
+            "get": {
+                "responses": {
+                    "200": {
+                        "description": "OK"
+                    }
+                },
+                "security": []
+            }
+        },
+        "/comments": {
+            "get": {
+                "responses": {
+                    "200": {
+                        "description": "OK"
+                    }
+                },
+                "security": [
+                    {
+                        "User Access Token": [
+                            "read:comments"
+                        ]
+                    }
+                ]
+            },
+            "post": {
+                "responses": {
+                    "201": {
+                        "description": "Created"
+                    }
+                },
+                "security": [
+                    {
+                        "User Access Token": [
+                            "write:comments"
+                        ]
+                    }
+                ]
+            }
+        }
+    },
+    "components": {
+        "securitySchemes": {
+            "User Access Token": {
+                "type": "oauth2",
+                "description": "Authenticating as a user using an oAuth2 access token.",
+                "flows": {}
+            }
+        }
+    },
+    "security": [
+        {
+            "User Access Token": [
+                "read:comments",
+                "write:comments"
+            ]
+        }
+    ]
+}

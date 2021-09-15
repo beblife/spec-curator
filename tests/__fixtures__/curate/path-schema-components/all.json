@@ -1,0 +1,82 @@
+{
+    "openapi": "3.0.0",
+    "info": {
+        "title": "Paths using schema components in JSON format",
+        "version": "1.0.0"
+    },
+    "paths": {
+        "/packages": {
+            "get": {
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "$ref": "#/components/schemas/Package"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/tags": {
+            "get": {
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Tags"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/comments": {
+            "post": {
+                "responses": {
+                    "201": {
+                       "description": "Created",
+                       "content": {
+                           "application/json": {
+                               "schema": {
+                                   "$ref": "#/components/schemas/Comment"
+                               }
+                           }
+                       }
+                    }
+                }
+            }
+        }
+    },
+    "components": {
+        "schemas": {
+            "Package": {
+                "type": "object",
+                "additionalProperties": true
+            },
+            "Comment": {
+                "type": "object",
+                "additionalProperties": true
+            },
+            "Tags": {
+                "type": "array",
+                "items": {
+                    "type": "object",
+                    "additionalProperties": true
+                }
+            },
+            "Unused": {
+                "type": "string"
+            }
+        }
+    }
+}
