@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Beblife\SpecCurator;
 
+use Beblife\SpecCurator\Curators\WithoutTags;
 use cebe\openapi\spec\Paths;
 use cebe\openapi\spec\Reference;
 use InvalidArgumentException;
@@ -26,13 +27,7 @@ final class Curate
 
     public function withoutTags(): self
     {
-        $this->curated->tags = [];
-
-        foreach ($this->curated->paths as $path) {
-            foreach ($path->getOperations() as $operation) {
-                unset($operation->tags);
-            }
-        }
+        $this->curated = (new WithoutTags())->curate($this->curated);
 
         return $this;
     }
