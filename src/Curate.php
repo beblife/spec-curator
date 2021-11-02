@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Beblife\SpecCurator;
 
+use Beblife\SpecCurator\Curators\Servers;
 use Beblife\SpecCurator\Curators\WithoutTags;
 use cebe\openapi\spec\Paths;
 use cebe\openapi\spec\Reference;
@@ -37,23 +38,7 @@ final class Curate
     {
         $this->ensureAtLeastOneItemInArray($servers, 'server');
 
-        $filterByUrl = function ($server) use ($servers) {
-            return in_array($server->url, $servers, true);
-        };
-
-        $this->curated->servers = array_values(array_filter($this->curated->servers, $filterByUrl));
-
-        foreach ($this->curated->paths as $name => $path) {
-            if (empty($path->servers)) {
-                continue;
-            }
-
-            $path->servers = array_values(array_filter($path->servers, $filterByUrl));
-
-            if (empty($path->servers)) {
-                $this->curated->paths->removePath($name);
-            }
-        }
+        $this->curated = (new Servers($servers))->curate($this->curated);
 
         return $this;
     }
