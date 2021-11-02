@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Beblife\SpecCurator;
 
 use Beblife\SpecCurator\Curators\Paths;
+use Beblife\SpecCurator\Curators\Security;
 use Beblife\SpecCurator\Curators\Servers;
 use Beblife\SpecCurator\Curators\WithoutTags;
 use cebe\openapi\spec\Reference;
@@ -58,40 +59,7 @@ final class Curate
     {
         $this->ensureAtLeastOneItemInArray($securities, 'security');
 
-        $filterByName = function ($security) use ($securities) {
-            foreach ($securities as $key => $value) {
-                if (is_numeric($key)) {
-                    $name = $value;
-                }
-
-                if (is_null($security->{$name} ?? null)) {
-                    continue;
-                }
-
-                return true;
-            }
-        };
-
-        $this->curated->security = array_values(array_filter($this->curated->security, $filterByName));
-
-        $this->curated->components->securitySchemes = array_filter($this->curated->components->securitySchemes, function ($security) use ($securities) {
-            return in_array($security, $securities, true);
-        }, ARRAY_FILTER_USE_KEY);
-
-        foreach ($this->curated->paths->getPaths() as $pathName => $path) {
-            foreach ($path->getOperations() as $method => $operation) {
-                if (empty($operation->security ?? [])) {
-                    continue;
-                }
-
-                $operation->security = array_values(array_filter($operation->security, $filterByName));
-                $path->{$method} = $operation;
-
-                if (empty($operation->security)) {
-                    $this->curated->paths->removePath($pathName);
-                }
-            }
-        }
+        $this->curated = (new Security($securities))->curate($this->curated);
 
         return $this;
     }
