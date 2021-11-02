@@ -9,7 +9,6 @@ use Beblife\SpecCurator\Curators\Security;
 use Beblife\SpecCurator\Curators\Servers;
 use Beblife\SpecCurator\Curators\WithoutTags;
 use cebe\openapi\spec\Reference;
-use InvalidArgumentException;
 use RecursiveArrayIterator;
 use RecursiveIteratorIterator;
 
@@ -34,31 +33,22 @@ final class Curate
         return $this;
     }
 
-    /** @throws InvalidArgumentException */
     public function servers(array $servers): self
     {
-        $this->ensureAtLeastOneItemInArray($servers, 'server');
-
         $this->curated = (new Servers($servers))->curate($this->curated);
 
         return $this;
     }
 
-    /** @throws InvalidArgumentException */
     public function paths(array $paths): self
     {
-        $this->ensureAtLeastOneItemInArray($paths, 'path');
-
         $this->curated = (new Paths($paths))->curate($this->curated);
 
         return $this;
     }
 
-    /** @throws InvalidArgumentException */
     public function security(array $securities): self
     {
-        $this->ensureAtLeastOneItemInArray($securities, 'security');
-
         $this->curated = (new Security($securities))->curate($this->curated);
 
         return $this;
@@ -69,13 +59,6 @@ final class Curate
         $this->removeUnusedReferences();
 
         return $this->curated;
-    }
-
-    private function ensureAtLeastOneItemInArray(array $items, string $type): void
-    {
-        if (empty($items)) {
-            throw new InvalidArgumentException(sprintf('Please provide at least one %s.', $type));
-        }
     }
 
     private function removeUnusedReferences(): void

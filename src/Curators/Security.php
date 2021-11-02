@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Beblife\SpecCurator\Curators;
 
 use Beblife\SpecCurator\Spec;
+use Webmozart\Assert\Assert;
 
 final class Security implements Curator
 {
@@ -12,6 +13,8 @@ final class Security implements Curator
 
     public function __construct(array $names)
     {
+        Assert::notEmpty($names, 'Please provide at least one security.');
+
         $this->names = $names;
     }
 

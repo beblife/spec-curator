@@ -6,6 +6,7 @@ namespace Beblife\SpecCurator\Curators;
 
 use Beblife\SpecCurator\Spec;
 use cebe\openapi\spec\Paths as SpecPaths;
+use Webmozart\Assert\Assert;
 
 final class Paths implements Curator
 {
@@ -13,6 +14,8 @@ final class Paths implements Curator
 
     public function __construct(array $paths)
     {
+        Assert::notEmpty($paths, 'Please provide at least one path.');
+
         $this->paths = $paths;
     }
 
