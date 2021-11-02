@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 namespace Beblife\SpecCurator;
 
+use Beblife\SpecCurator\Curators\Paths;
 use Beblife\SpecCurator\Curators\Servers;
 use Beblife\SpecCurator\Curators\WithoutTags;
-use cebe\openapi\spec\Paths;
 use cebe\openapi\spec\Reference;
 use InvalidArgumentException;
 use RecursiveArrayIterator;
@@ -48,30 +48,7 @@ final class Curate
     {
         $this->ensureAtLeastOneItemInArray($paths, 'path');
 
-        foreach ($paths as $key => $value) {
-            if (is_numeric($key)) {
-                $name = $value;
-                unset($paths[$key]);
-            }
-
-            if (substr((string) $key, 0, 1) === '/') {
-                $name = $key;
-            }
-
-            $path = $this->curated->paths->getPath($name);
-
-            if (is_array($value)) {
-                $operationsToRemove = array_map('strtolower', array_diff(['GET', 'POST', 'PATCH', 'PUT', 'DELETE'], $value));
-
-                foreach ($operationsToRemove as $operation) {
-                    unset($path->$operation);
-                }
-            }
-
-            $paths[$name] = $path;
-        }
-
-        $this->curated->paths = new Paths($paths);
+        $this->curated = (new Paths($paths))->curate($this->curated);
 
         return $this;
     }
