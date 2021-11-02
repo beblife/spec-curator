@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Beblife\SpecCurator;
 
+use Beblife\SpecCurator\Curators\Curator;
 use Beblife\SpecCurator\Curators\Paths;
 use Beblife\SpecCurator\Curators\Security;
 use Beblife\SpecCurator\Curators\Servers;
@@ -16,9 +17,15 @@ final class Curate
 {
     private Spec $curated;
 
+    /**
+     * @var Curator[]
+     */
+    private array $curators;
+
     private function __construct(Spec $spec)
     {
         $this->curated = clone $spec;
+        $this->curators = [];
     }
 
     public static function fromSpec(Spec $spec): self
@@ -26,36 +33,47 @@ final class Curate
         return new self($spec);
     }
 
+    public function withCurator(Curator $curator): self
+    {
+        array_push($this->curators, $curator);
+
+        return $this;
+    }
+
     public function withoutTags(): self
     {
-        $this->curated = (new WithoutTags())->curate($this->curated);
+        $this->withCurator(new WithoutTags());
 
         return $this;
     }
 
     public function servers(array $servers): self
     {
-        $this->curated = (new Servers($servers))->curate($this->curated);
+        $this->withCurator(new Servers($servers));
 
         return $this;
     }
 
     public function paths(array $paths): self
     {
-        $this->curated = (new Paths($paths))->curate($this->curated);
+        $this->withCurator(new Paths($paths));
 
         return $this;
     }
 
     public function security(array $securities): self
     {
-        $this->curated = (new Security($securities))->curate($this->curated);
+        $this->withCurator(new Security($securities));
 
         return $this;
     }
 
     public function toCuratedSpec(): Spec
     {
+        $this->curated = array_reduce($this->curators, function (Spec $spec, Curator $curator) {
+            return $curator->curate($spec);
+        }, $this->curated);
+
         $this->removeUnusedReferences();
 
         return $this->curated;
