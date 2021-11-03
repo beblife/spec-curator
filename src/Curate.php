@@ -5,11 +5,11 @@ declare(strict_types=1);
 namespace Beblife\SpecCurator;
 
 use Beblife\SpecCurator\Curators\Curator;
+use Beblife\SpecCurator\Curators\NoTags;
+use Beblife\SpecCurator\Curators\NoUnusedReferences;
 use Beblife\SpecCurator\Curators\Paths;
 use Beblife\SpecCurator\Curators\Security;
 use Beblife\SpecCurator\Curators\Servers;
-use Beblife\SpecCurator\Curators\WithoutTags;
-use Beblife\SpecCurator\Curators\WithoutUnusedReferences;
 
 final class Curate
 {
@@ -38,9 +38,9 @@ final class Curate
         return $this;
     }
 
-    public function withoutTags(): self
+    public function noTags(): self
     {
-        $this->withCurator(new WithoutTags());
+        $this->withCurator(new NoTags());
 
         return $this;
     }
@@ -68,7 +68,7 @@ final class Curate
 
     public function toCuratedSpec(): Spec
     {
-        $this->withCurator(new WithoutUnusedReferences());
+        $this->withCurator(new NoUnusedReferences());
 
         return array_reduce($this->curators, function (Spec $spec, Curator $curator) {
             return $curator->curate($spec);

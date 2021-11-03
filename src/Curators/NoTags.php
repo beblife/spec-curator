@@ -6,7 +6,7 @@ namespace Beblife\SpecCurator\Curators;
 
 use Beblife\SpecCurator\Spec;
 
-final class WithoutTags implements Curator
+final class NoTags implements Curator
 {
     public function curate(Spec $spec): Spec
     {

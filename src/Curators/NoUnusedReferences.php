@@ -9,7 +9,7 @@ use cebe\openapi\spec\Reference;
 use RecursiveArrayIterator;
 use RecursiveIteratorIterator;
 
-final class WithoutUnusedReferences implements Curator
+final class NoUnusedReferences implements Curator
 {
     private array $usedReferences = [];
 
