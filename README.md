@@ -21,6 +21,7 @@ $curatedSpec = \Beblife\SpecCurator\Curate::fromSpec($spec)
         'User Access Token',
     ])
     ->noTags()
+    ->withCurator(new MyCustomCurator())
     ->toCuratedSpec()
 ;
 
