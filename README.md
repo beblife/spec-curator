@@ -40,7 +40,6 @@ file_put_contents('/my/path/to/save/the/curated-spec.json', (string) $curatedSpe
 - [x] Curate security
     - [x] Global security
     - [x] Path security
-- [x] Curate schemas
 - [ ] Curate tags
 - [x] Remove all tags
 
