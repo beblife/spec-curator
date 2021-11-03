@@ -17,8 +17,8 @@ final class NoUnusedReferences implements Curator
     {
         $this->determineUsedReferences($spec);
 
-        $spec = $this->removeUnusedFromSection($spec, 'responses');
-        $spec = $this->removeUnusedFromSection($spec, 'schemas');
+        $spec = $this->removeUnusedFromComponents($spec, 'responses');
+        $spec = $this->removeUnusedFromComponents($spec, 'schemas');
 
         return $spec;
     }
@@ -60,7 +60,7 @@ final class NoUnusedReferences implements Curator
         ]);
     }
 
-    private function removeUnusedFromSection(Spec $spec, string $section): Spec
+    private function removeUnusedFromComponents($spec, string $section): Spec
     {
         if (isset($spec->components->{$section}) && count($spec->components->{$section})) {
             $spec->components->{$section} = array_filter($spec->components->{$section}, function ($key) use ($section) {
